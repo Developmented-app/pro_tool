@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="km" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRO|SOFTWARE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;700;800&display=swap');
+        
+        :root {
+            --bg-primary: #ffffff;
+            --text-primary: #0f172a;
+        }
+
+        .dark {
+            --bg-primary: #020617;
+            --text-primary: #f8fafc;
+        }
+
+        body {
+            font-family: 'Kantumruy Pro', 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.4s ease;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .dark .glass {
+            background: rgba(15, 23, 42, 0.75);
+        }
+
+        .hero-glow {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 800px;
+            background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            min-width: 200px;
+            background: white;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            z-index: 100;
+        }
+
+        .dark .dropdown-content { background: #1e293b; }
+        .dropdown:hover .dropdown-content { display: block; }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .animate-up { animation: slideUp 0.5s ease-out forwards; }
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden">
+    <div class="hero-glow"></div>
+
+    <!-- របារម៉ឺនុយ (Navigation) -->
+    <nav class="fixed w-full z-50 glass border-b border-gray-200/50 dark:border-gray-800/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <!-- ឡូហ្គោ និងមុខងារ Home -->
+                <div class="flex items-center gap-2.5 cursor-pointer group" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-bolt text-lg"></i>
+                    </div>
+                    <span class="text-2xl font-extrabold tracking-tight">PRO|SOFTWARE</span>
+                </div>
+                
+                <!-- ម៉ឺនុយសម្រាប់ Desktop -->
+                <div class="hidden md:flex items-center space-x-8 text-sm font-semibold text-gray-600 dark:text-gray-400">
+                    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" data-t="nav_home" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">ទំព័រដើម</button>
+                    <a href="#about" data-t="nav_about" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">អំពីយើង</a>
+                    <a href="#pricing" data-t="nav_pricing" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">តម្លៃ</a>
+                    <a href="#downloads" data-t="nav_downloads" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition">ទាញយក</a>
+                </div>
+                
+                <div class="flex items-center gap-3">
+                    <!-- ប៊ូតុងប្តូរភាសា -->
+                    <div class="relative dropdown">
+                        <button class="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                            <i class="fas fa-globe text-lg"></i>
+                            <span id="currentLangLabel" class="text-xs font-bold uppercase">KM</span>
+                        </button>
+                        <div class="dropdown-content mt-2 border border-gray-100 dark:border-gray-700 p-1">
+                            <button onclick="setLanguage('km')" class="w-full text-left px-4 py-2.5 text-sm hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-lg transition-colors font-medium">ភាសាខ្មែរ (KM)</button>
+                            <button onclick="setLanguage('en')" class="w-full text-left px-4 py-2.5 text-sm hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-lg transition-colors font-medium">English (EN)</button>
+                            <button onclick="setLanguage('th')" class="w-full text-left px-4 py-2.5 text-sm hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-lg transition-colors font-medium">ไทย (TH)</button>
+                            <button onclick="setLanguage('vi')" class="w-full text-left px-4 py-2.5 text-sm hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-lg transition-colors font-medium">Tiếng Việt (VI)</button>
+                            <button onclick="setLanguage('kr')" class="w-full text-left px-4 py-2.5 text-sm hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-lg transition-colors font-medium">한국어 (KR)</button>
+                            <button onclick="setLanguage('ja')" class="w-full text-left px-4 py-2.5 text-sm hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-lg transition-colors font-medium">日本語 (JA)</button>
+                            <button onclick="setLanguage('zh')" class="w-full text-left px-4 py-2.5 text-sm hover:bg-indigo-50 dark:hover:bg-indigo-900/30 rounded-lg transition-colors font-medium">简体中文 (ZH)</button>
+                        </div>
+                    </div>
+
+                    <!-- ប៊ូតុងប្តូរ Dark Mode -->
+                    <button id="themeToggle" class="p-2.5 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                        <i class="fas fa-moon dark:hidden text-lg"></i>
+                        <i class="fas fa-sun hidden dark:block text-lg"></i>
+                    </button>
+                    
+                    <a href="#downloads" data-t="btn_get_app" class="hidden sm:block bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-indigo-700 transition-all active:scale-95 shadow-lg shadow-indigo-500/20">ទាញយកកម្មវិធី</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ផ្នែកខាងដើម (Hero Section) -->
+    <section id="home" class="pt-48 pb-24 px-4">
+        <div class="max-w-5xl mx-auto text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 mb-8 text-sm font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 rounded-full border border-indigo-100 dark:border-indigo-800 animate-up">
+                <span data-t="hero_badge">សូមណែនាំ NexusFlow 2.0</span>
+            </div>
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-8 tracking-tighter leading-[1.2] animate-up" style="animation-delay: 0.1s" data-t="hero_title">
+                អាជីវកម្មរបស់អ្នក <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-500">ធ្វើសមកាលកម្មយ៉ាងល្អឥតខ្ចោះ។</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto font-medium animate-up" style="animation-delay: 0.2s" data-t="hero_desc">
+                ប្រព័ន្ធប្រតិបត្តិការអាជីវកម្មដំបូងគេដែលប្រើប្រាស់បច្ចេកវិទ្យា AI។ ជួយឱ្យការងារស្វ័យប្រវត្តិ និងគ្រប់គ្រងក្រុមការងារជុំវិញពិភពលោក។
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-5 animate-up" style="animation-delay: 0.3s">
+                <a href="https://mega.nz/file/u25kRa4R#KbUDCFWHrYiZfR9SCplI57sxtgxTFEzcpGXxczT8tb0" class="bg-indigo-600 text-white px-10 py-5 rounded-2xl flex items-center justify-center gap-3 font-bold text-lg hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-500/20">
+                    <i class="fas fa-download"></i> <span data-t="hero_btn_main">ទាញយកសម្រាប់កុំព្យូទ័រ</span>
+                </a>
+                <a href="#about" class="px-10 py-5 rounded-2xl border-2 border-gray-200 dark:border-gray-800 font-bold text-lg hover:bg-gray-50 dark:hover:bg-gray-900 transition-all flex items-center justify-center">
+                    <span data-t="hero_btn_about">ស្វែងយល់បន្ថែម</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ផ្នែកអំពីយើង (About Section) -->
+    <section id="about" class="py-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="text-4xl md:text-5xl font-extrabold mb-8 leading-tight" data-t="about_title">លើសពីកម្មវិធីធម្មតា។<br/>វាជាប្រព័ន្ធអេកូឡូស៊ីពេញលេញ។</h2>
+                    <div class="space-y-6 text-gray-600 dark:text-gray-400 text-lg">
+                        <p data-t="about_p1">NexusFlow ត្រូវបានបង្កើតឡើងដើម្បីដោះស្រាយបញ្ហានៃការបែកបាក់ការងារ។ យើងផ្តល់ជូននូវស្រទាប់ AI-native ដែលតភ្ជាប់ទិន្នន័យ ក្រុមការងារ និងលំហូរការងាររបស់អ្នកនៅកន្លែងតែមួយ។</p>
+                        <p data-t="about_p2">ម៉ាស៊ីនរបស់យើងដំណើរការព្រឹត្តិការណ៍រាប់លានក្នុងមួយវិនាទី ដើម្បីធានាថាក្រុមការងារសកលរបស់អ្នកធ្វើការជាមួយគ្នាក្នុងពេលតែមួយ (Real-time)។</p>
+                        <ul class="space-y-4 pt-4">
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center mt-1"><i class="fas fa-check text-indigo-600 text-xs"></i></div>
+                                <div><strong class="text-gray-900 dark:text-white" data-t="about_feat_1_t">ការពង្រីកគ្មានដែនកំណត់:</strong> <span data-t="about_feat_1_d">រីកចម្រើនពី ១ ដល់ ១០០,០០០ នាក់ដោយរលូន។</span></div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center mt-1"><i class="fas fa-check text-indigo-600 text-xs"></i></div>
+                                <div><strong class="text-gray-900 dark:text-white" data-t="about_feat_2_t">សុវត្ថិភាពខ្ពស់បំផុត:</strong> <span data-t="about_feat_2_d">ការបំប្លែងកូដសម្ងាត់សម្រាប់រាល់ទិន្នន័យអាជីវកម្ម។</span></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="absolute -inset-4 bg-gradient-to-tr from-indigo-500 to-violet-500 rounded-3xl opacity-20 blur-2xl"></div>
+                    <div class="relative bg-white dark:bg-gray-800 p-8 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-2xl">
+                        <div class="flex gap-2 mb-6">
+                            <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="h-4 bg-gray-100 dark:bg-gray-700 rounded w-3/4"></div>
+                            <div class="h-4 bg-gray-100 dark:bg-gray-700 rounded w-full"></div>
+                            <div class="grid grid-cols-3 gap-4 py-4">
+                                <div class="h-20 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl flex items-center justify-center"><i class="fas fa-chart-line text-indigo-400 text-2xl"></i></div>
+                                <div class="h-20 bg-violet-50 dark:bg-violet-900/20 rounded-xl flex items-center justify-center"><i class="fas fa-robot text-violet-400 text-2xl"></i></div>
+                                <div class="h-20 bg-blue-50 dark:bg-blue-900/20 rounded-xl flex items-center justify-center"><i class="fas fa-shield-alt text-blue-400 text-2xl"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ផ្នែកតម្លៃ (Pricing Section) -->
+    <section id="pricing" class="py-32 bg-gray-50/50 dark:bg-gray-900/30">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-6" data-t="pricing_title">តម្លៃសមរម្យ និងតម្លាភាព</h2>
+                <div class="flex items-center justify-center gap-4 mt-8">
+                    <span class="text-sm font-bold" data-t="p_monthly">ប្រចាំខែ</span>
+                    <button id="priceSwitch" class="w-14 h-7 bg-indigo-600 rounded-full relative p-1 transition-all">
+                        <div id="switchKnot" class="w-5 h-5 bg-white rounded-full transition-all translate-x-0"></div>
+                    </button>
+                    <span class="text-sm font-bold" data-t="p_yearly">ប្រចាំឆ្នាំ (បញ្ចុះតម្លៃ ២០%)</span>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- កញ្ចប់ Starter -->
+                <div class="p-8 bg-white dark:bg-gray-800 rounded-3xl border border-gray-100 dark:border-gray-700 flex flex-col transition-all hover:shadow-xl hover:-translate-y-1">
+                    <h3 class="text-xl font-bold mb-2">Starter</h3>
+                    <p class="text-sm text-gray-500 mb-6" data-t="p_starter_desc">ស័ក្តិសមសម្រាប់អ្នកធ្វើការឯករាជ្យ និងក្រុមតូចៗ។</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-extrabold" id="priceStarter">$9</span>
+                        <span class="text-gray-500" data-t="p_per_month">/ខែ</span>
+                    </div>
+                    <ul class="space-y-4 mb-8 text-sm font-medium text-gray-600 dark:text-gray-400 flex-1">
+                        <li><i class="fas fa-check text-indigo-500 mr-2"></i> ៥ គម្រោងដំបូង</li>
+                        <li><i class="fas fa-check text-indigo-500 mr-2"></i> ជំនួយការ AI មូលដ្ឋាន</li>
+                        <li><i class="fas fa-check text-indigo-500 mr-2"></i> ការគាំទ្រពីសហគមន៍</li>
+                    </ul>
+                    <button class="w-full py-4 border-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 rounded-xl font-bold hover:bg-indigo-600 hover:text-white transition-all" data-t="p_btn">ចាប់ផ្តើមឥឡូវនេះ</button>
+                </div>
+
+                <!-- កញ្ចប់ Professional -->
+                <div class="p-8 bg-white dark:bg-gray-800 rounded-3xl border-2 border-indigo-600 relative overflow-hidden flex flex-col shadow-2xl scale-105 z-10">
+                    <div class="absolute top-0 right-0 bg-indigo-600 text-white text-[10px] font-black px-4 py-1 rounded-bl-xl uppercase tracking-widest">ពេញនិយម</div>
+                    <h3 class="text-xl font-bold mb-2">Professional</h3>
+                    <p class="text-sm text-gray-500 mb-6" data-t="p_pro_desc">សម្រាប់អាជីវកម្មដែលកំពុងរីកចម្រើនយ៉ាងឆាប់រហ័ស។</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-extrabold" id="pricePro">$29</span>
+                        <span class="text-gray-500" data-t="p_per_month">/ខែ</span>
+                    </div>
+                    <ul class="space-y-4 mb-8 text-sm font-medium text-gray-600 dark:text-gray-400 flex-1">
+                        <li><i class="fas fa-check text-indigo-500 mr-2"></i> គម្រោងមិនកំណត់</li>
+                        <li><i class="fas fa-check text-indigo-500 mr-2"></i> មុខងារ AI ស្វ័យប្រវត្តិពេញលេញ</li>
+                        <li><i class="fas fa-check text-indigo-500 mr-2"></i> ការវិភាគទិន្នន័យកម្រិតខ្ពស់</li>
+                    </ul>
+                    <button class="w-full py-4 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-all shadow-lg" data-t="p_btn"><a href="https://link.payway.com.kh/ABAPAYpG433148G" target="_blank" class="text-white">សាកល្បងឥតគិតថ្លៃ</a></button>
+                </div>
+
+                <!-- កញ្ចប់ Enterprise -->
+                <div class="p-8 bg-white dark:bg-gray-800 rounded-3xl border border-gray-100 dark:border-gray-700 flex flex-col transition-all hover:shadow-xl hover:-translate-y-1">
+                    <h3 class="text-xl font-bold mb-2">Enterprise</h3>
+                    <p class="text-sm text-gray-500 mb-6" data-t="p_ent_desc">ដំណោះស្រាយផ្ទាល់ខ្លួនសម្រាប់ស្ថាប័នធំៗ។</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-extrabold" id="priceEnt">$99</span>
+                        <span class="text-gray-500" data-t="p_per_month">/ខែ</span>
+                    </div>
+                    <ul class="space-y-4 mb-8 text-sm font-medium text-gray-600 dark:text-gray-400 flex-1">
+                        <li><i class="fas fa-check text-indigo-500 mr-2"></i> ការតភ្ជាប់តាមតម្រូវការ</li>
+                        <li><i class="fas fa-check text-indigo-500 mr-2"></i> អ្នកគ្រប់គ្រងគណនីផ្ទាល់ខ្លួន</li>
+                        <li><i class="fas fa-check text-indigo-500 mr-2"></i> គាំទ្រអាទិភាព ២៤/៧</li>
+                    </ul>
+                    <button class="w-full py-4 bg-gray-900 text-white dark:bg-white dark:text-gray-900 rounded-xl font-bold hover:opacity-90 transition-all" data-t="p_btn_contact">ទាក់ទងផ្នែកលក់</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ផ្នែកទាញយក (Downloads) -->
+    <section id="downloads" class="py-32">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-extrabold mb-6" data-t="dl_title">កម្មវិធីសម្រាប់គ្រប់ឧបករណ៍</h2>
+                <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-medium" data-t="dl_desc">ប្រើប្រាស់ថាមពលពេញលេញនៃ NexusFlow តាមរយៈកម្មវិធីផ្លូវការរបស់យើង។</p>
+            </div>
+            <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-6">
+                <!-- Mac -->
+                <div class="p-8 bg-white dark:bg-gray-800 rounded-3xl border border-gray-100 dark:border-gray-700 text-center transition-all hover:-translate-y-2">
+                    <div class="w-16 h-16 bg-gray-50 dark:bg-gray-900 rounded-2xl flex items-center justify-center mb-6 mx-auto"><i class="fab fa-apple text-3xl"></i></div>
+                    <h4 class="text-xl font-bold mb-2">macOS</h4>
+                    <button onclick="handleDownload('mac')" class="mt-6 w-full py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-all">ទាញយក</button>
+                </div>
+                <!-- Windows -->
+                <div class="p-8 bg-white dark:bg-gray-800 rounded-3xl border border-gray-100 dark:border-gray-700 text-center transition-all hover:-translate-y-2">
+                    <div class="w-16 h-16 bg-gray-50 dark:bg-gray-900 rounded-2xl flex items-center justify-center mb-6 mx-auto"><i class="fab fa-windows text-3xl text-blue-500"></i></div>
+                    <h4 class="text-xl font-bold mb-2">Windows</h4>
+                    <button onclick="handleDownload('win')" class="mt-6 w-full py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-all">ទាញយក</button>
+                </div>
+                <!-- Mobile -->
+                <div class="p-8 bg-white dark:bg-gray-800 rounded-3xl border border-gray-100 dark:border-gray-700 text-center transition-all hover:-translate-y-2">
+                    <div class="w-16 h-16 bg-gray-50 dark:bg-gray-900 rounded-2xl flex items-center justify-center mb-6 mx-auto"><i class="fas fa-mobile-alt text-3xl text-emerald-500"></i></div>
+                    <h4 class="text-xl font-bold mb-2">iOS & Android</h4>
+                    <button onclick="handleDownload('mobile')" class="mt-6 w-full py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-all">យកកម្មវិធី</button>
+                </div>
+                <!-- Linux -->
+                <div class="p-8 bg-white dark:bg-gray-800 rounded-3xl border border-gray-100 dark:border-gray-700 text-center transition-all hover:-translate-y-2">
+                    <div class="w-16 h-16 bg-gray-50 dark:bg-gray-900 rounded-2xl flex items-center justify-center mb-6 mx-auto"><i class="fab fa-linux text-3xl text-orange-500"></i></div>
+                    <h4 class="text-xl font-bold mb-2">Linux</h4>
+                    <button onclick="handleDownload('linux')" class="mt-6 w-full py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-all">ទម្រង់ផ្សេងៗ</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ជើងទំព័រ (Footer) -->
+    <footer class="pt-24 pb-12 border-t border-gray-100 dark:border-gray-800">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col items-center gap-8">
+                <!-- រូបតំណាងបណ្តាញសង្គម -->
+                <div class="flex items-center gap-6">
+                    <a href="#" class="w-12 h-12 rounded-full bg-gray-50 dark:bg-gray-900 flex items-center justify-center text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-all group">
+                        <i class="fab fa-facebook-f text-xl transition-transform group-hover:scale-110"></i>
+                    </a>
+                    <a href="#" class="w-12 h-12 rounded-full bg-gray-50 dark:bg-gray-900 flex items-center justify-center text-gray-400 hover:text-sky-500 hover:bg-sky-50 dark:hover:bg-sky-900/30 transition-all group">
+                        <i class="fab fa-telegram-plane text-xl transition-transform group-hover:scale-110"></i>
+                    </a>
+                    <a href="#" class="w-12 h-12 rounded-full bg-gray-50 dark:bg-gray-900 flex items-center justify-center text-gray-400 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-all group">
+                        <i class="fab fa-x-twitter text-xl transition-transform group-hover:scale-110"></i>
+                    </a>
+                    <a href="#" class="w-12 h-12 rounded-full bg-gray-50 dark:bg-gray-900 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all group">
+                        <i class="fab fa-linkedin-in text-xl transition-transform group-hover:scale-110"></i>
+                    </a>
+                    <a href="#" class="w-12 h-12 rounded-full bg-gray-50 dark:bg-gray-900 flex items-center justify-center text-gray-400 hover:text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-900/30 transition-all group">
+                        <i class="fab fa-instagram text-xl transition-transform group-hover:scale-110"></i>
+                    </a>
+                </div>
+
+                <div class="text-center">
+                    <p class="text-sm text-gray-400 font-bold mb-2">&copy; ២០២៦ NexusFlow Inc. <span data-t="footer_tagline">រចនាឡើងសម្រាប់អ្នកបង្កើតថ្មីនៃថ្ងៃស្អែក។</span></p>
+                    <div class="flex justify-center gap-4 text-xs font-semibold text-gray-400">
+                        <a href="#" class="hover:text-indigo-600">លក្ខខណ្ឌប្រើប្រាស់</a>
+                        <a href="#" class="hover:text-indigo-600">គោលការណ៍ឯកជនភាព</a>
+                        <a href="#" class="hover:text-indigo-600">ជំនួយ</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chat Widget -->
+    <div id="chatWidget" class="fixed bottom-6 right-6 z-[100] hidden">
+        <div class="w-80 sm:w-96 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden animate-up">
+            <div class="bg-indigo-600 p-6 text-white flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                    <span class="font-bold text-sm" data-t="chat_header">ជំនួយការ NexusFlow</span>
+                </div>
+                <button onclick="toggleChat()" class="text-white/80 hover:text-white"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="chatMessages" class="h-80 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-gray-900/50">
+                <div class="bg-white dark:bg-gray-800 p-3 rounded-2xl rounded-tl-none shadow-sm text-sm border border-gray-100 dark:border-gray-700 max-w-[85%]">
+                    <p data-t="chat_welcome">សួស្តី! តើយើងអាចជួយអ្វីបានខ្លះថ្ងៃនេះ?</p>
+                </div>
+            </div>
+            <div class="p-4 border-t border-gray-100 dark:border-gray-700">
+                <form id="chatForm" class="flex gap-2">
+                    <input type="text" id="chatInput" placeholder="សរសេរសារ..." class="flex-1 bg-gray-100 dark:bg-gray-700 border-none rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                    <button type="submit" class="bg-indigo-600 text-white w-10 h-10 rounded-xl flex items-center justify-center"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ប៊ូតុងបើក Chat -->
+    <button onclick="toggleChat()" class="fixed bottom-6 right-6 w-14 h-14 bg-indigo-600 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-[90]">
+        <i class="fas fa-comment-alt text-xl"></i>
+    </button>
+
+    <script>
+        // ការបកប្រែគ្រប់ភាសា
+        const translations = {
+            km: {
+                nav_home: "ទំព័រដើម", nav_about: "អំពីយើង", nav_pricing: "តម្លៃ", nav_downloads: "ទាញយក", btn_get_app: "ទាញយកកម្មវិធី",
+                hero_badge: "សូមណែនាំ NexusFlow 2.0", hero_title: 'អាជីវកម្មរបស់អ្នក <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-500">ធ្វើសមកាលកម្មយ៉ាងល្អឥតខ្ចោះ។</span>',
+                hero_desc: "ប្រព័ន្ធប្រតិបត្តិការអាជីវកម្មដំបូងគេដែលប្រើប្រាស់បច្ចេកវិទ្យា AI។ ជួយឱ្យការងារស្វ័យប្រវត្តិ និងគ្រប់គ្រងក្រុមការងារជុំវិញពិភពលោក។",
+                hero_btn_main: "ទាញយកសម្រាប់កុំព្យូទ័រ", hero_btn_about: "ស្វែងយល់បន្ថែម",
+                about_title: "លើសពីកម្មវិធីធម្មតា។<br/>វាជាប្រព័ន្ធអេកូឡូស៊ីពេញលេញ។",
+                about_p1: "NexusFlow ត្រូវបានបង្កើតឡើងដើម្បីដោះស្រាយបញ្ហានៃការបែកបាក់ការងារ។ យើងផ្តល់ជូននូវស្រទាប់ AI-native ដែលតភ្ជាប់ទិន្នន័យ ក្រុមការងារ និងលំហូរការងាររបស់អ្នកនៅកន្លែងតែមួយ។",
+                about_p2: "ម៉ាស៊ីនរបស់យើងដំណើរការព្រឹត្តិការណ៍រាប់លានក្នុងមួយវិនាទី ដើម្បីធានាថាក្រុមការងារសកលរបស់អ្នកធ្វើការជាមួយគ្នាក្នុងពេលតែមួយ (Real-time)។",
+                about_feat_1_t: "ការពង្រីកគ្មានដែនកំណត់:", about_feat_1_d: "រីកចម្រើនពី ១ ដល់ ១០០,០០០ នាក់ដោយរលូន។",
+                about_feat_2_t: "សុវត្ថិភាពខ្ពស់បំផុត:", about_feat_2_d: "ការបំប្លែងកូដសម្ងាត់សម្រាប់រាល់ទិន្នន័យអាជីវកម្ម។",
+                pricing_title: "តម្លៃសមរម្យ និងតម្លាភាព", p_monthly: "ប្រចាំខែ", p_yearly: "ប្រចាំឆ្នាំ (បញ្ចុះតម្លៃ ២០%)", p_per_month: "/ខែ",
+                p_starter_desc: "ស័ក្តិសមសម្រាប់អ្នកធ្វើការឯករាជ្យ និងក្រុមតូចៗ។",
+                p_pro_desc: "សម្រាប់អាជីវកម្មដែលកំពុងរីកចម្រើនយ៉ាងឆាប់រហ័ស។",
+                p_ent_desc: "ដំណោះស្រាយផ្ទាល់ខ្លួនសម្រាប់ស្ថាប័នធំៗ។",
+                p_btn: "សាកល្បងឥឡូវនេះ", p_btn_contact: "ទាក់ទងផ្នែកលក់",
+                dl_title: "កម្មវិធីសម្រាប់គ្រប់ឧបករណ៍", dl_desc: "ប្រើប្រាស់ថាមពលពេញលេញនៃ NexusFlow តាមរយៈកម្មវិធីផ្លូវការរបស់យើង។",
+                chat_header: "ជំនួយការ NexusFlow", chat_welcome: "សួស្តី! តើយើងអាចជួយអ្វីបានខ្លះថ្ងៃនេះ?",
+                footer_tagline: "រចនាឡើងសម្រាប់អ្នកបង្កើតថ្មីនៃថ្ងៃស្អែក。"
+            },
+            en: {
+                nav_home: "Home", nav_about: "About", nav_pricing: "Pricing", nav_downloads: "Downloads", btn_get_app: "Get App",
+                hero_badge: "NexusFlow 2.0 Launch", hero_title: 'Your business, <br/><span class="text-indigo-600">perfectly synced.</span>',
+                hero_desc: "The world's first AI-native business OS. Automate tasks and manage teams globally.",
+                hero_btn_main: "Download Desktop", hero_btn_about: "Learn More"
+            },
+            th: {
+                nav_home: "หน้าแรก", nav_about: "เกี่ยวกับเรา", nav_pricing: "ราคา", nav_downloads: "ดาวน์โหลด", btn_get_app: "รับแอป",
+                hero_badge: "ขอแนะนำ NexusFlow 2.0", hero_title: "ธุรกิจของคุณ <br/>ซิงค์กันอย่างไร้ที่ติ",
+                hero_desc: "ระบบปฏิบัติการธุรกิจระบบแรกของโลกที่ใช้ AI ช่วยให้งานของคุณเป็นไปอย่างอัตโนมัติ"
+            }
+        };
+
+        let isYearly = false;
+        let currentLang = 'km';
+
+        // មុខងារប្តូរភាសា
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            document.getElementById('currentLangLabel').innerText = lang;
+            
+            document.querySelectorAll('[data-t]').forEach(el => {
+                const key = el.getAttribute('data-t');
+                const content = translations[lang]?.[key] || translations['en']?.[key];
+                if (content) el.innerHTML = content;
+            });
+            localStorage.setItem('nexus_lang', lang);
+        }
+
+        // មុខងារប្តូរតម្លៃ (Monthly/Yearly)
+        document.getElementById('priceSwitch').addEventListener('click', () => {
+            isYearly = !isYearly;
+            const knot = document.getElementById('switchKnot');
+            if (isYearly) {
+                knot.classList.replace('translate-x-0', 'translate-x-7');
+                document.getElementById('priceStarter').innerText = '$7';
+                document.getElementById('pricePro').innerText = '$23';
+                document.getElementById('priceEnt').innerText = '$79';
+            } else {
+                knot.classList.replace('translate-x-7', 'translate-x-0');
+                document.getElementById('priceStarter').innerText = '$9';
+                document.getElementById('pricePro').innerText = '$29';
+                document.getElementById('priceEnt').innerText = '$99';
+            }
+        });
+
+        // មុខងារប្តូរ Theme
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+        });
+
+        // មុខងារ Chat
+        function toggleChat() {
+            document.getElementById('chatWidget').classList.toggle('hidden');
+        }
+
+        document.getElementById('chatForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const input = document.getElementById('chatInput');
+            if (!input.value.trim()) return;
+
+            const msgDiv = document.createElement('div');
+            msgDiv.className = "ml-auto bg-indigo-600 text-white p-3 rounded-2xl rounded-tr-none shadow-sm text-sm max-w-[85%]";
+            msgDiv.innerText = input.value;
+            document.getElementById('chatMessages').appendChild(msgDiv);
+            
+            const val = input.value;
+            input.value = '';
+            
+            setTimeout(() => {
+                const reply = document.createElement('div');
+                reply.className = "bg-white dark:bg-gray-800 p-3 rounded-2xl rounded-tl-none shadow-sm text-sm border border-gray-100 dark:border-gray-700 max-w-[85%]";
+                reply.innerHTML = `<p>សូមអរគុណចំពោះសារ៖ "<i>${val}</i>"។ ភ្នាក់ងារយើងនឹងឆ្លើយតបឆាប់ៗ។</p>`;
+                document.getElementById('chatMessages').appendChild(reply);
+            }, 800);
+        });
+
+        // ការទាញយកសាកល្បង
+        function handleDownload(p) {
+            const btn = document.querySelector(`[onclick="handleDownload('${p}')"]`);
+            const old = btn.innerText;
+            btn.innerText = 'កំពុងតភ្ជាប់...';
+            setTimeout(() => {
+                btn.innerText = 'ចាប់ផ្តើមទាញយក!';
+                setTimeout(() => btn.innerText = old, 2000);
+            }, 800);
+        }
+
+        window.onload = () => {
+            const saved = localStorage.getItem('nexus_lang') || 'km';
+            setLanguage(saved);
+        };
+    </script>
+</body>
+</html>
